@@ -1,5 +1,6 @@
 "use strict";
 
+// Arrow functions
 const generateSecretNumber = () => Math.trunc(Math.random() * 20) + 1;
 
 const displayMessage = (message) =>
@@ -17,13 +18,17 @@ const changeColor = (color) =>
 const changeWidth = (width) =>
   (document.querySelector(".number").style.width = width);
 
-let secretNumber = generateSecretNumber();
-let score = 20;
-let highscore = 0;
+const inputValue = (input) => (document.querySelector(".guess").value = input);
 
+// Initial conditions
+let secretNumber = generateSecretNumber(); // Generates a random number and stores it in a variable
+let score = 20; // Sets score to 20
+let highscore = 0; // Sets highscore to 0
+
+// Check button functionality
 document.querySelector(".check").addEventListener("click", function () {
   const guess = Number(document.querySelector(".guess").value);
-  console.log(guess, typeof guess);
+  console.log(guess);
 
   // When there is no input
   if (!guess || guess < 1 || guess > 20) {
@@ -36,7 +41,7 @@ document.querySelector(".check").addEventListener("click", function () {
     changeColor("#60b347");
     changeWidth("30rem");
 
-    // Highscore
+    // Records highscore
     if (score > highscore) {
       highscore = score;
       document.querySelector(".highscore").textContent = highscore;
@@ -48,13 +53,11 @@ document.querySelector(".check").addEventListener("click", function () {
       displayMessage(guess > secretNumber ? "📈 Too high!" : "📉 Too low!");
       score -= 2;
       setScore(score);
-      // document.querySelector(".score").textContent = score;
 
       // When player loses the game
     } else {
       displayMessage("💥 GAME OVER 💥");
       setScore(0);
-      // document.querySelector(".score").textContent = 0;
       showNumber(secretNumber);
       changeWidth("30rem");
       changeColor("#6B0504");
@@ -62,15 +65,14 @@ document.querySelector(".check").addEventListener("click", function () {
   }
 });
 
-// Reset the game
+// Reset the game with again button
 document.querySelector(".again").addEventListener("click", function () {
   score = 20;
   secretNumber = generateSecretNumber();
   showNumber("?");
   changeWidth("15rem");
-  document.querySelector(".guess").value = "";
+  inputValue("");
   displayMessage("Start guessing...");
   setScore(score);
-  // document.querySelector(".score").textContent = score;
   changeColor("#222");
 });
